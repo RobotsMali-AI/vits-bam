@@ -1,0 +1,7 @@
+transformers>=5.8.0
+datasets[audio]>=4.8.0
+accelerate>=1.13.0
+matplotlib
+wandb
+tensorboard
+Cython
