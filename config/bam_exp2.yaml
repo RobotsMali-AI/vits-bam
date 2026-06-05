@@ -43,7 +43,7 @@ training:
   per_device_eval_batch_size: 32
   gradient_accumulation_steps: 1
   gradient_checkpointing: false
-  learning_rate: 0.003 # Do not use scientific notation since we do not parse them
+  learning_rate: 0.00005 # Do not use scientific notation since we do not parse them
   adam_beta1: 0.8
   adam_beta2: 0.99
   warmup_ratio: 0.08
@@ -61,10 +61,10 @@ training:
   seed: 456
 
 logging:
-  output_dir: "./tmp/bam_vits_finetuning-exp1" # Required: should be unique for each run to avoid accidental overwriting
+  output_dir: "./tmp/bam_vits_finetuning-exp2" # Required: should be unique for each run to avoid accidental overwriting
   overwrite_output_dir: true
   push_to_hub: false
-  hub_model_id: diarray/bam_vits_finetuning-exp1
+  hub_model_id: diarray/bam_vits_finetuning-exp2
   report_to: "wandb"
   logging_dir: "./logs"
   save_steps: 500

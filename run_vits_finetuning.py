@@ -34,7 +34,6 @@ from transformers.feature_extraction_utils import BatchFeature
 from transformers.optimization import get_scheduler
 from transformers.trainer_pt_utils import LengthGroupedSampler
 from transformers.trainer_utils import get_last_checkpoint, is_main_process
-from transformers.utils import send_example_telemetry
 from utils import plot_alignment_to_numpy, plot_spectrogram_to_numpy, VitsDiscriminator, VitsModelForPreTraining, VitsFeatureExtractor, slice_segments, VitsConfig, uromanize
 from create_tokenizers import clean_bambara_pseudo_ipa
 
@@ -122,10 +121,22 @@ class ModelArguments:
             )
         },
     )
+    pseudo_ipa: bool = field(
+        default=False,
+        metadata={"help": "Whether to apply custom pseudo-IPA normalization to Bambara text."}
+    )
 
 
 @dataclass
 class VITSTrainingArguments(TrainingArguments):
+    overwrite_output_dir: bool = field(
+        default=False,
+        metadata={"help": "Overwrite the content of the output directory."}
+    )
+    group_by_length: bool = field(
+        default=False,
+        metadata={"help": "Whether or not to group samples of roughly the same length together."}
+    )
     do_step_schedule_per_epoch: bool = field(
         default=True,
         metadata={
@@ -541,16 +552,12 @@ def main():
                 flat_args.update(yaml_config[section])
                 
         # 3. Parse the flattened dictionary into the Hugging Face dataclasses
-        model_args, data_args, training_args = parser.parse_dict(flat_args)
+        model_args, data_args, training_args = parser.parse_dict(flat_args, allow_extra_keys=True)
         
     elif len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
         model_args, data_args, training_args = parser.parse_json_file(json_file=os.path.abspath(sys.argv[1]))
     else:
         model_args, data_args, training_args = parser.parse_args_into_dataclasses()
-
-    # Sending telemetry. Tracking the example usage helps us better allocate resources to maintain them. The
-    # information sent is the one passed as arguments along with your Python/PyTorch versions.
-    send_example_telemetry("run_vits_finetuning", model_args, data_args)
 
     # 2. Setup logging
     logging.basicConfig(
@@ -672,12 +679,11 @@ def main():
     )
 
     # 6. Resample speech dataset if necessary
-    dataset_sampling_rate = next(iter(raw_datasets.values())).features[data_args.audio_column_name].sampling_rate
-    if dataset_sampling_rate != feature_extractor.sampling_rate:
-        with training_args.main_process_first(desc="resample"):
-            raw_datasets = raw_datasets.cast_column(
-                data_args.audio_column_name, datasets.features.Audio(sampling_rate=feature_extractor.sampling_rate)
-            )
+    with training_args.main_process_first(desc="resample"):
+        logger.info(f"Casting target column '{data_args.audio_column_name}' to Audio with sampling rate {feature_extractor.sampling_rate}")
+        raw_datasets = raw_datasets.cast_column(
+            data_args.audio_column_name, datasets.features.Audio(sampling_rate=feature_extractor.sampling_rate)
+        )
 
     # 7. Preprocessing the datasets.
     # We need to read the audio files as arrays and tokenize the targets.
@@ -811,6 +817,11 @@ def main():
         cache = {k: v.cache_files for k, v in vectorized_datasets.items()}
         logger.info(f"Data preprocessing finished. Files cached at {cache}.")
         return
+
+    # Ensure pad_token_id is explicitly set to prevent custom training script crash
+    if not hasattr(config, "pad_token_id") or config.pad_token_id is None:
+        logger.info("Setting missing config.pad_token_id fallback to 0 ('_')")
+        config.pad_token_id = 0
 
     # 8. Load pretrained model,
     # Distributed training:
