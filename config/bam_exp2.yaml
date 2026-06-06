@@ -17,8 +17,8 @@ data:
   project_name: "bam_vits_finetuning"
   dataset_name: "Panga-Azazia/all-in-one" # TODO: replace with actual dataset
   dataset_config_name: "afvoices"
-  overwrite_cache: true # Set to false to use cached features from previous runs.
-  preprocessing_num_workers: 16
+  overwrite_cache: false # Set to false to use cached features from previous runs.
+  preprocessing_num_workers: 8
   max_train_samples: null
   max_eval_samples: 5000 # Limit the number of eval examples to 5k
   audio_column_name: "audio"
@@ -38,8 +38,8 @@ data:
 training:
   do_train: true
   do_eval: true
-  num_train_epochs: 200
-  per_device_train_batch_size: 100
+  num_train_epochs: 50
+  per_device_train_batch_size: 64
   per_device_eval_batch_size: 32
   gradient_accumulation_steps: 1
   gradient_checkpointing: false
@@ -47,8 +47,8 @@ training:
   adam_beta1: 0.8
   adam_beta2: 0.99
   warmup_ratio: 0.08
-  group_by_length: false
-  eval_steps: 500
+  group_by_length: true
+  eval_steps: 300
   do_step_schedule_per_epoch: true
   lr_decay: 0.999875
   weight_duration: 1.0
@@ -58,14 +58,14 @@ training:
   weight_gen: 1.0
   weight_fmaps: 1.0
   fp16: true
-  seed: 456
+  seed: 123
 
 logging:
   output_dir: "./tmp/bam_vits_finetuning-exp2" # Required: should be unique for each run to avoid accidental overwriting
   overwrite_output_dir: true
-  push_to_hub: false
+  push_to_hub: true
   hub_model_id: diarray/bam_vits_finetuning-exp2
   report_to: "wandb"
   logging_dir: "./logs"
-  save_steps: 500
-  save_total_limit: 5
+  save_steps: 300
+  save_total_limit: 10
