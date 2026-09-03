@@ -2,7 +2,7 @@
 
 This repository contains RobotsMali's first text-to-speech experiments for Bambara (Bamanankan). It modernizes the dependencies and compatibility code from [ylacombe/finetune-hf-vits](https://github.com/ylacombe/finetune-hf-vits) while leaving the core VITS adversarial training recipe largely unchanged.
 
-The released checkpoints are research artifacts, not production TTS systems. All are substantially undertrained relative to the hundreds of thousands of optimizer steps normally used for VITS; RobotsMali uses approximately 200,000 steps as a reference budget. No formal MOS, intelligibility, speaker-similarity, or safety evaluation has been completed.
+The released checkpoints are research artifacts, not production TTS systems. All are substantially undertrained relative to the hundreds of thousands of optimizer steps normally used for VITS; considering 200,000 steps as a reference budget. No formal MOS, intelligibility, speaker-similarity, or safety evaluation has been completed.
 
 ## Released resources
 
