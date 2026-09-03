@@ -1,7 +1,8 @@
 import numpy as np
 import torch
 
-from .monotonic_align.core import maximum_path_c
+# Import directly from the local compiled core .so file
+from .core import maximum_path_c
 
 
 def maximum_path(neg_cent, mask):

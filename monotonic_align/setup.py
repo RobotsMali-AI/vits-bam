@@ -1,7 +1,11 @@
-from distutils.core import setup
-
-import numpy
+from setuptools import setup, Extension
 from Cython.Build import cythonize
+import numpy as np
 
-
-setup(name="monotonic_align", ext_modules=cythonize("core.pyx"), include_dirs=[numpy.get_include()])
+setup(
+    ext_modules=cythonize(Extension(
+        name="core",
+        sources=["core.pyx"]
+    )),
+    include_dirs=[np.get_include()],
+)

@@ -5,3 +5,4 @@ matplotlib==3.10.0
 wandb==0.26.1
 tensorboard==2.20.0
 Cython==3.0.12
+soundfile==0.14.0

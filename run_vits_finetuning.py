@@ -889,7 +889,10 @@ def main():
     # 11. Set up accelerate
     project_name = data_args.project_name
     train_dataset = vectorized_datasets["train"]
+    train_dataset = train_dataset.remove_columns(["audio"])
     eval_dataset = vectorized_datasets.get("eval", None)
+    if eval_dataset is not None:
+        eval_dataset = eval_dataset.remove_columns(["audio"])
 
     # inspired from https://github.com/huggingface/diffusers/blob/main/examples/text_to_image/train_text_to_image.py
     # and https://github.com/huggingface/community-events/blob/main/huggan/pytorch/cyclegan/train.py
