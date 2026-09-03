@@ -12,7 +12,7 @@ tags: [vits, text-to-speech, bambara, pseudo-ipa, multispeaker, low-resource]
 
 `RobotsMali/bam-vits-pseudo-ipa` is an experimental 20-speaker Bambara VITS checkpoint from [RobotsMali AI4D Lab](https://robotsmali.org/). It differs from [`RobotsMali/bam-vits`](https://huggingface.co/RobotsMali/bam-vits) in its **text input representation**, not its VITS architecture: Bambara spelling is converted by a deterministic pseudo-IPA cleaner before tokenization.
 
->The model is substantially undertrained. It received 200 epochs on a small, noisy corpus, far below the hundreds of thousands of optimizer steps normally used for VITS (approximately 200,000 is our reference budget). No formal evaluation is available; expect unstable, noisy, or unintelligible output.
+> **Research checkpoint — substantially undertrained.** The model is substantially undertrained. It received 200 epochs on a small, noisy corpus, far below the hundreds of thousands of optimizer steps normally used for VITS (approximately 200,000 is our reference budget). No formal evaluation is available; expect unstable, noisy, or unintelligible output.
 
 ## Research question and finding
 

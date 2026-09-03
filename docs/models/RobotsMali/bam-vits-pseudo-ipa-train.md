@@ -13,7 +13,7 @@ tags: [vits, text-to-speech, bambara, pseudo-ipa, training-checkpoint, discrimin
 
 > **Substantially undertrained.** It received 200 epochs on a small, noisy corpus, far below VITS training budgets of hundreds of thousands of steps (approximately 200,000 is our reference). Continue training and evaluate it; do not treat it as converged.
 
-## Required text preprocessing
+## Usage: required text preprocessing
 
 The pseudo-IPA transform is the only intended experimental difference from the plain-input line. The tokenizer does not apply it automatically. Use the same cleaner for training and any diagnostic inference:
 
