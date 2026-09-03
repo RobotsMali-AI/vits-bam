@@ -1,0 +1,26 @@
+version: 1
+cards:
+- repo_id: RobotsMali/afvoices-notag
+  repo_type: dataset
+  local: docs/data/RobotsMali/afvoices-notag.md
+- repo_id: RobotsMali/finBamSpeech
+  repo_type: dataset
+  local: docs/data/RobotsMali/finBamSpeech.md
+- repo_id: RobotsMali/bam-vits
+  repo_type: model
+  local: docs/models/RobotsMali/bam-vits.md
+- repo_id: RobotsMali/bam-vits-fintech
+  repo_type: model
+  local: docs/models/RobotsMali/bam-vits-fintech.md
+- repo_id: RobotsMali/bam-vits-pseudo-ipa
+  repo_type: model
+  local: docs/models/RobotsMali/bam-vits-pseudo-ipa.md
+- repo_id: RobotsMali/bam-vits-pseudo-ipa-fintech
+  repo_type: model
+  local: docs/models/RobotsMali/bam-vits-pseudo-ipa-fintech.md
+- repo_id: RobotsMali/bam-vits-pseudo-ipa-train
+  repo_type: model
+  local: docs/models/RobotsMali/bam-vits-pseudo-ipa-train.md
+- repo_id: RobotsMali/bam-vits-train
+  repo_type: model
+  local: docs/models/RobotsMali/bam-vits-train.md
