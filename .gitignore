@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+*.so
+build/
+early_tts_experiment.ipynb
+env.sh

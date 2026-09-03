@@ -1,0 +1,73 @@
+# default config extracted from the script
+
+model:
+  model_name_or_path: "ylacombe/vits-ljs-with-discriminator" # Required
+  config_name: null
+  tokenizer_name: null
+  feature_extractor_name: null
+  cache_dir: null
+  use_fast_tokenizer: true
+  model_revision: "main"
+  token: null
+  use_auth_token: null # Deprecated in HF, use token
+  trust_remote_code: false
+  override_speaker_embeddings: false
+  override_vocabulary_embeddings: false
+
+data:
+  project_name: "vits_finetuning"
+  dataset_name: "ylacombe/english_dialects" # Required
+  dataset_config_name: "welsh_female"
+  overwrite_cache: false
+  preprocessing_num_workers: 4
+  max_train_samples: null
+  max_eval_samples: null
+  audio_column_name: "audio"
+  text_column_name: "text"
+  speaker_id_column_name: null
+  filter_on_speaker_id: null
+  max_tokens_length: 450.0
+  max_duration_in_seconds: 20.0
+  min_duration_in_seconds: 0.0
+  preprocessing_only: false
+  train_split_name: "train"
+  eval_split_name: "test"
+  do_lower_case: false
+  do_normalize: false
+  full_generation_sample_text: "This is a test, let's see what comes out of this."
+  uroman_path: null
+
+training:
+  do_train: true
+  do_eval: true
+  num_train_epochs: 200
+  per_device_train_batch_size: 16
+  per_device_eval_batch_size: 16
+  gradient_accumulation_steps: 1
+  gradient_checkpointing: false
+  learning_rate: 0.00002 # 2e-5
+  adam_beta1: 0.8
+  adam_beta2: 0.99
+  warmup_ratio: 0.01
+  group_by_length: false
+  eval_steps: 50
+  do_step_schedule_per_epoch: true
+  lr_decay: 0.999875
+  weight_duration: 1.0
+  weight_kl: 1.5
+  weight_mel: 35.0
+  weight_disc: 3.0
+  weight_gen: 1.0
+  weight_fmaps: 1.0
+  fp16: true
+  seed: 456
+
+logging:
+  output_dir: "./tmp/vits_finetuned" # Required
+  overwrite_output_dir: true
+  push_to_hub: false
+  hub_model_id: null
+  report_to: "tensorboard" # Or "wandb"
+  logging_dir: "./logs"
+  save_steps: 500
+  save_total_limit: null
